@@ -17,14 +17,14 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
 
-    @PostMapping("/author")
+    @PostMapping("/authors")
     public ResponseEntity<Author> addAuthor(@RequestBody Author author){
         return ResponseEntity.ok(authorService.save(author));
     }
 
 
-    @GetMapping("/author/{authorName}")
-    public ResponseEntity<List<Author>> fetchAuthorByName(@PathVariable("authorName") String name){
+    @GetMapping("/authors")
+    public ResponseEntity<List<Author>> fetchAuthorByName(@RequestParam("contains") String name){
         List<Author> authors = authorService.fetchByName(name);
         if(authors.size() == 0) throw new EntityNotFoundException("No se encontró el autor con el nombre " + name);
         return ResponseEntity.ok(authors);

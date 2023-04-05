@@ -43,7 +43,7 @@ public class FantasyBookService {
         Author author = authorOptional.get();
 
         String pathFile = "";
-        if(!image.isEmpty()){
+        if(image != null){
             pathFile = IMAGE_BASE_PATH + image.getOriginalFilename();
             try {
                 image.transferTo(new File(pathFile));
@@ -51,7 +51,6 @@ public class FantasyBookService {
                 throw new RuntimeException(e);
             }
         }
-
 
         FantasyBook fantasyBook = FantasyBook.builder()
                 .name(name)
@@ -61,5 +60,12 @@ public class FantasyBookService {
                 .build();
 
         return repository.save(fantasyBook);
+    }
+
+    public FantasyBook fetchBook(Long book) {
+        Optional<FantasyBook> opBook = repository.findById(book);
+        if(opBook.isEmpty()) throw new EntityNotFoundException("No se encontró el libro con el id " + book);
+
+        return opBook.get();
     }
 }
