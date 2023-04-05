@@ -1,5 +1,8 @@
 package com.fantasy.fantasybookssystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +25,7 @@ public class Author {
     @Column(name = "biography", length = 65536)
     private String biography;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<FantasyBook> books;
 
