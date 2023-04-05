@@ -1,10 +1,9 @@
 package com.fantasy.fantasybookssystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -14,6 +13,7 @@ import lombok.*;
 @Builder
 public class FantasyBook {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -21,5 +21,9 @@ public class FantasyBook {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "id_author")
     private Author author;
+
+    @OneToMany(mappedBy = "id")
+    private List<Character> characters;
 }

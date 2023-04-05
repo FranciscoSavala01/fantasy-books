@@ -1,9 +1,6 @@
 package com.fantasy.fantasybookssystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -16,10 +13,19 @@ import java.util.List;
 @Builder
 public class Author {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "biography", length = 65536)
     private String biography;
 
-    @OneToMany(mappedBy = "id_author")
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<FantasyBook> books;
+
+    public Integer countBooks(){
+        return books.size();
+    }
 }

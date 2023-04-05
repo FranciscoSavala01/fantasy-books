@@ -1,9 +1,8 @@
 package com.fantasy.fantasybookssystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CollectionId;
 
 import java.util.List;
 
@@ -15,10 +14,19 @@ import java.util.List;
 @Builder
 public class Character {
     @Id
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
     private String description;
 
-    @OneToMany
+    @ManyToMany
     private List<Power> power;
+
+    @ManyToOne
+    @JoinColumn(name = "fantasy_book")
+    private FantasyBook fantasyBook;
 }

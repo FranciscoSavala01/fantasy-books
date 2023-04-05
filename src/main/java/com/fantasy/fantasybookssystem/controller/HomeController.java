@@ -1,14 +1,12 @@
 package com.fantasy.fantasybookssystem.controller;
 
 import com.fantasy.fantasybookssystem.model.FantasyBook;
-import com.fantasy.fantasybookssystem.service.IFantasyBookService;
+import com.fantasy.fantasybookssystem.service.FantasyBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    private IFantasyBookService fantasyBookService;
+    private FantasyBookService fantasyBookService;
 
     @GetMapping("/")
     public ResponseEntity<String> home(){
