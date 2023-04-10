@@ -6,7 +6,10 @@ import com.fantasy.fantasybookssystem.model.FantasyBook;
 import com.fantasy.fantasybookssystem.repository.IAuthorRepository;
 import com.fantasy.fantasybookssystem.repository.IFantasyBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -29,12 +32,14 @@ public class FantasyBookService {
     }
 
     public List<FantasyBook> fetchBooks(Integer offset, Integer limit) {
-        return repository.findAll();
+        Page<FantasyBook> books = repository.findAll(PageRequest.of(offset, limit));
+        return books.stream().toList();
     }
 
     public FantasyBook createFantasyBook(FantasyBook fantasyBook) {
         return fantasyBook;
     }
+
 
     public FantasyBook createFantasyBook(String name, String description, MultipartFile image, Long idAuthor) {
         Optional<Author> authorOptional = authorRepository.findById(idAuthor);

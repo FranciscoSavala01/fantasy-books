@@ -12,17 +12,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/fantasy-books")
 public class FantasyBookController {
     @Autowired
     private FantasyBookService fantasyBookService;
 
-    //holas asd ags
-    @PostMapping
-    public ResponseEntity<FantasyBook> createFantasyBook(@RequestBody FantasyBookRequest f){
 
-        return ResponseEntity.ok(fantasyBookService.createFantasyBook(f.getName(), f.getDescription(), f.getImage(), f.getAuthor()));
+    @PostMapping
+    public ResponseEntity<FantasyBook> createFantasyBook(@RequestParam String name,
+                                                         @RequestParam String description,
+                                                         @RequestParam MultipartFile image,
+                                                         @RequestParam Long author){
+        return ResponseEntity.ok(fantasyBookService.createFantasyBook(name, description, image, author));
+    }
+
+    @PostMapping("/image")
+    public ResponseEntity<String> tryingImage(@RequestParam MultipartFile file){
+        return ResponseEntity.ok("OKAY");
     }
 
     @GetMapping("/{idBook}")
@@ -30,11 +39,17 @@ public class FantasyBookController {
         return ResponseEntity.ok(fantasyBookService.fetchBook(book));
     }
 
+    @GetMapping
+    public ResponseEntity<List<FantasyBook>> fetchAllBooks(@RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                                                           @RequestParam(value = "length", defaultValue = "10") Integer length){
+        return ResponseEntity.ok(fantasyBookService.fetchBooks(offset, length));
+    }
+
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class FantasyBookRequest{
+    public class FantasyBookRequest{
         private String name;
         private String description;
         private MultipartFile image;
